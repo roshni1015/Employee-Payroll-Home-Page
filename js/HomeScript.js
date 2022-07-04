@@ -1,41 +1,22 @@
-window.addEventListener('DOMContentLoaded',(event)=>{
-    createInnerHtmlUC4();
+let empPayrollList;
+window.addEventListener('DOMContentLoaded', (event) => {
+    empPayrollList = getEmployeePayrollDataFromStorage();
+    document.querySelector(".emp-count").textContent = empPayrollList.length;
+    createInnerHtml();
+    localStorage.removeItem('editEmp');
+
 });
 
-const createInnerHtmlUC4=()=>{
-    const headerHtml="<th></th><th>Name</th><th>Gender</th><th>Department</th>"+
-                      "<th>Salary</th><th>Start Date</th><th>Action</th>"
-    const innerHtml= `${headerHtml}
-    
-    <tr>
-        <td><img class="profile" alt="" 
-            src="../assets/image1.jpg"
-        </td>
-    <td>Roshni Adatrao</td>
-    <td>Female</td>
-    <td><div class='dept-label'>HR</div>
-        <div class='dept-label'>Finance</div></td>
-    <td>3000000</td>
-    <td>1 April 2022</td>
-    <td>
-      <img name ="1" onclick="remove(this)" alt="delete" src="../assets/Delete.png, width ="20%"">
-      <img name ="1" alt="edit" onclick="update(this)"
-           src="../assets/edit.png, width="20%">
-    </td>
-    </tr>
-    `;
-    document.querySelector('#table-display').innerHTML=innerHtml;
+const getEmployeePayrollDataFromStorage = () => {
+    return localStorage.getItem('EmployeePayrollList') ?
+                        JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
 }
 
-window.addEventListener('DOMContentLoaded',(event)=>{
-    createInnerHtmlUC5();
-});
-
-const createInnerHtmlUC5=()=>{
+const createInnerHtml=()=>{
+    if (empPayrollList.length == 0) return;
     const headerHtml="<th></th><th>Name</th><th>Gender</th><th>Department</th>"+
                       "<th>Salary</th><th>Start Date</th><th>Action</th>"
     let innerHtml= `${headerHtml}`;
-    let empPayrollList = createEmployeePayrollJSON();
     for (const empPayrollData of empPayrollList) {
         innerHtml = `${innerHtml}
         <tr>
@@ -65,35 +46,9 @@ const getDeptHtml = (deptList) => {
     return deptHtml;
 }
 
-const createEmployeePayrollJSON = () => {
-    let empPayrollListLocal = [
-        {
-            _name: 'Roshni Adatrao',
-            _gender: 'Female',
-            _department: [
-                'HR',
-                'Finance'
-            ],
-            _salary:'25000',
-            _startDate:'1 April 2022',
-            _note:'',
-            _id: new Date().getTime(),
-            _profilePic:'../assets/image1.jpg'
-        },
-        {
-            _name: 'Mahesh Kulkarni',
-            _gender: 'Male',
-            _department: [
-                'Sales'
-            ],
-            _salary:'40000',
-            _startDate:'25 May 2021',
-            _note:'',
-            _id: new Date().getTime(),
-            _profilePic:'../assets/image2.jpg'
-        }
-    ];
-    return empPayrollListLocal;
-}
+
+
+
+
 
 
